@@ -16,6 +16,11 @@ t_game	ft_write_map(t_game map)
 	while (line < map.map_lines)
 	{
 		map.map_content[line] = (char *)malloc(sizeof(char) * map.map_firstlen);
+		if (map.map_content[line] == NULL)
+		{
+			ft_free_array(map.map_content, line);
+			ft_error("Malloc error.\n");
+		}
 		i = 0;
 		while (*map.map_all != '\n' && *map.map_all)
 		{

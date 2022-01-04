@@ -6,14 +6,14 @@
 #    By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/06 00:33:30 by jyolando          #+#    #+#              #
-#    Updated: 2022/01/04 23:36:35 by jyolando         ###   ########.fr        #
+#    Updated: 2022/01/05 00:37:17 by jyolando         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
 SRCS = src/main.c \
-		src/map/read_map.c src/map/write_map.c\
+		src/map/read_map.c src/map/write_map.c src/map/check_map.c \
 		src/utils.c src/error.c \
 		\
 		gnl/get_next_line.c gnl/get_next_line_utils.c \
