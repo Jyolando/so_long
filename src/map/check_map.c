@@ -9,7 +9,7 @@ static int	check_symbs(t_game map)
 	while (i < map.map_height)
 	{
 		j = 0;
-		while (map.map_content[i][j])
+		while (j < map.map_lenght)
 		{
 			if (map.map_content[i][j] != '1' && map.map_content[i][j] != '0' &&
 				map.map_content[i][j] != 'P' && map.map_content[i][j] != 'E' &&
@@ -31,7 +31,7 @@ static int	check_walls(t_game map)
 	while (i < map.map_height)
 	{
 		j = 0;
-		while (map.map_content[i][j])
+		while (j < map.map_lenght)
 		{
 			if (i == 0 || i == map.map_height - 1)
 				if (map.map_content[i][j] != '1')
@@ -47,7 +47,7 @@ static int	check_walls(t_game map)
 	return (1);
 }
 
-static int	check_player_exit(t_game map, char c) {
+static int	check_player(t_game map, char c) {
 	int	i;
 	int	j;
 	int	flag;
@@ -70,7 +70,7 @@ static int	check_player_exit(t_game map, char c) {
 	return (flag);
 }
 
-static int	check_coin(t_game map) {
+static int	check_coin_exit(t_game map, char c) {
 	int	i;
 	int	j;
 	int	flag;
@@ -82,7 +82,7 @@ static int	check_coin(t_game map) {
 		j = 0;
 		while (map.map_content[i][j])
 		{
-			if (flag == 0 && map.map_content[i][j] == 'C')
+			if (flag == 0 && map.map_content[i][j] == c)
 				return (1);
 			j++;
 		}
@@ -91,14 +91,16 @@ static int	check_coin(t_game map) {
 	return (flag);
 }
 
+#include <stdio.h>
+
 int	ft_check_map(t_game map)
 {
 	if (!check_symbs(map) || !check_walls(map) ||
-		!check_player_exit(map, 'P') || !check_player_exit(map, 'E') ||
-		!check_coin(map))
+		!check_player(map, 'P') || !check_coin_exit(map, 'E') ||
+		!check_coin_exit(map, 'C'))
 	{
-		ft_free_array(map.map_content, map.map_height);
-		ft_error("Map is invalid.\n");
+		ft_free_array(map.map_content, map.map_height + 1);
+		ft_error("Error\nMap is invalid.\n");
 	}
 	return (1);
 }

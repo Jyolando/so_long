@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-#include <stdio.h>
+// !!! #include <stdio.h>
 
 int main(int c, char **v)
 {
@@ -11,16 +11,14 @@ int main(int c, char **v)
 	{
 		fd = open(v[1], O_RDONLY);
 		if (fd < 0)
-			ft_error("File doesn't exist.\n");
-		map = ft_read_map(fd);
-		map = ft_write_map(map);
+			ft_error("Error\nFile doesn't exist.\n");
+		map = ft_write_map(map, v[1], fd);
 		if (ft_check_map(map))
 		{
-			//ft_error("All good");
+			map = ft_init_map(map);
+			ft_render(map);
 		}
-		//printf("%d\n%d\n%s\n%d\n", map.map_lines, map.map_firstlen, map.map_all, ft_strlen(map.map_all));
-		//printf("%s\n%s\n%s\n", map.map_content[0], map.map_content[1], map.map_content[2]);
 	}
 	else
-		ft_error("You need put: ./so_long name_map\n");
+		ft_error("Error\nYou need put: ./so_long name_map\n");
 }

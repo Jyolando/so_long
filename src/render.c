@@ -1,125 +1,73 @@
-//include "../gnl/get_next_line.h"
-#include <mlx.h>
+#include "so_long.h"
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+#include <stdio.h>
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+static int	is_move(int keycode)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	return (keycode == 13 || keycode == 1 ||
+			keycode == 0 || keycode == 2);
 }
 
-//void	my_mlx_print_square(t_data *data, int *x, int *y, int color)
-//{
-//	int	i;
-//	int	j;
-//	char	*dst;
-
-//	i = x[0];
-//	j = y[0];
-//	while(i < x[1])
-//	{
-//		j = y[0];в
-//		while (j < y[1])
-//		{
-//			dst = data->addr + (i * data->line_length + j * (data->bits_per_pixel / 8));
-//			*(unsigned int*)dst = color;
-//			j++;
-//		}
-//		i++;
-//	}
-//}
-
-void draw_map()
+static int key_hook(int keycode, t_all *all)
 {
+	//printf("%d\n", keycode);
 
+	if (is_move(keycode) && all->map.gover != 1)
+	{
+		if (ft_move(keycode, all))
+			printf("%d\n", ++all->moves);
+		//all->map.p_x++;
+		//mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.player.img,
+		//						all->map.p_x * 24, all->map.p_y * 24);
+	}
+	if (keycode == 53)
+	{
+		mlx_destroy_image(all->mlx.mlx, all->mlx.win);
+		exit (0);
+	}
+	return 0;
 }
 
-int	main(int argc, char **argv)
+void	render_map(t_game map, t_vars mlx)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
-	t_data  bimg;
-	(void)argc;
-	int i = 0;
-	int j = 25;
-	int c = 0;
-	int memy = 0;
-	int memx = 0;
+	int	i;
+	int	j;
 
-	 int a = 10, b = 10;
-
-	while(argv[1][c])
+	i = 0;
+	while (i < map.map_height)
 	{
-		if(argv[1][c] == '1' || argv[1][c] == '0')
+		j = 0;
+		while (map.map_content[i][j])
 		{
-			if (memx >= memy)
-				i += 25;
-			memx++;
+			if (map.map_content[i][j] == '1')
+				mlx_put_image_to_window(mlx.mlx, mlx.win, map.wall.img, j * 24, i * 24);
+			if (map.map_content[i][j] == '0')
+				mlx_put_image_to_window(mlx.mlx, mlx.win, map.empty.img, j * 24, i * 24);
+			if (map.map_content[i][j] == 'P')
+				mlx_put_image_to_window(mlx.mlx, mlx.win, map.player.img, j * 24, i * 24);
+			if (map.map_content[i][j] == 'C')
+				mlx_put_image_to_window(mlx.mlx, mlx.win, map.coin.img, j * 24, i * 24);
+			if (map.map_content[i][j] == 'E')
+				mlx_put_image_to_window(mlx.mlx, mlx.win, map.exit.img, j * 24, i * 24);
+			j++;
 		}
-		else if (argv[1][c] == '\n')
-		{
-			j += 25;
-			memy = memx;
-			memx = 0;
-		}
-		c++;
+		i++;
 	}
+}
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, i, j, "Hello world!");
+void	ft_render(t_game map)
+{
+	t_vars mlx;
+	t_all all;
 
-	img.img = mlx_png_file_to_image(mlx, "wall_texture.png",
-         &a, &b);
-	bimg.img = mlx_png_file_to_image(mlx, "backwall_texture.png",
-		&a, &b);
-
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	bimg.addr = mlx_get_data_addr(bimg.img, &bimg.bits_per_pixel, &bimg.line_length,
-								&bimg.endian);
-	//my_mlx_print_square(&img, x, y, 0x00FF0000);
-
-	i = j = c = memx = memy = 0;
-	while (argv[1][c])
-	{
-		if (argv[1][c] == '1' || argv[1][c] == '0' || argv[1][c] == '\n')
-		{
-			if (argv[1][c] == '1' || argv[1][c] == '0')
-			{
-				if (argv[1][c] == '1')
-				{
-					mlx_put_image_to_window(mlx, mlx_win, img.img, memy, memx);
-				}
-				else if (argv[1][c] == '0')
-				{
-					mlx_put_image_to_window(mlx, mlx_win, bimg.img, memy, memx);
-				}
-				memy += 25;
-			}
-			else
-			{
-				memx += 25;
-				memy = 0;
-			}
-
-		}
-		c++;
-	}
-	//my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-	//mlx_string_put(mlx, mlx_win, 70, 70, 0x00FF0000, "hello");
-
-	//img = mlx_xpm_file_to_image(mlx, "../images/player.xpm", 25, 25);
-
-	//mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx.mlx = mlx_init();
+	mlx.win = mlx_new_window(mlx.mlx, map.map_lenght * 24, map.map_height * 24,
+								"so_long");
+	map = ft_init_images(mlx, map);
+	render_map(map, mlx);
+	all.map = map;
+	all.mlx = mlx;
+	all.moves = 0;
+	mlx_key_hook(mlx.win, key_hook, &all);
+	mlx_loop(mlx.mlx);
 }
