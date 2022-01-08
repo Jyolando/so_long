@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movement.c                                         :+:      :+:    :+:   */
+/*   movement_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 15:33:10 by jyolando          #+#    #+#             */
-/*   Updated: 2022/01/08 19:14:49 by jyolando         ###   ########.fr       */
+/*   Updated: 2022/01/08 22:36:26 by jyolando         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 static int	is_exit(t_all *all, int x, int y)
 {
@@ -24,7 +24,10 @@ static int	is_exit(t_all *all, int x, int y)
 		else
 		{
 			mlx_put_image_to_window(all->mlx.mlx, all->mlx.win,
-				all->map.empty.img, all->map.p_x * 24, all->map.p_y * 24);
+				all->map.empty.img, all->map.p_x * 24, all->map.p_y * 24 + SCR);
+			mlx_put_image_to_window(all->mlx.mlx, all->mlx.win,
+				all->map.exit_cl.img, (all->map.p_x + x) * 24,
+				(all->map.p_y + y) * 24 + SCR);
 			all->map.gover = 1;
 			return (1);
 		}
@@ -41,6 +44,24 @@ static void	is_coin(t_all *all, int x, int y)
 	}
 }
 
+static void	change_direction(t_all *all, int x)
+{
+	if (x == -1 || (x == 0 && all->map.player.curr_dir == 0))
+	{
+		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win,
+			all->map.player.pl_left.img, all->map.p_x * 24,
+			all->map.p_y * 24 + SCR);
+		all->map.player.curr_dir = 0;
+	}
+	else if (x == 1 || (x == 0 && all->map.player.curr_dir == 1))
+	{
+		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win,
+			all->map.player.pl_right.img, all->map.p_x * 24,
+			all->map.p_y * 24 + SCR);
+		all->map.player.curr_dir = 1;
+	}
+}
+
 static int	move(t_all *all, int x, int y)
 {
 	int	flag;
@@ -49,23 +70,18 @@ static int	move(t_all *all, int x, int y)
 	if (all->map.map_content[all->map.p_y + y][all->map.p_x + x] == '1')
 		return (0);
 	if (all->map.te_x != 0 || all->map.te_y != 0)
-	{
-		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.exit.img,
-			all->map.te_x * 24, all->map.te_y * 24);
-		all->map.te_x = 0;
-		all->map.te_y = 0;
-		flag = 1;
-	}
+		flag = temp_exit(all);
 	if (is_exit(all, x, y))
+		return (1);
+	if (is_foe(all, x, y))
 		return (1);
 	is_coin(all, x, y);
 	if (!flag)
 		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.empty.img,
-			all->map.p_x * 24, all->map.p_y * 24);
+			all->map.p_x * 24, all->map.p_y * 24 + SCR);
 	all->map.p_y += y;
 	all->map.p_x += x;
-	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.player.img,
-		all->map.p_x * 24, all->map.p_y * 24);
+	change_direction(all, x);
 	return (1);
 }
 
