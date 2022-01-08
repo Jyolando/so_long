@@ -6,7 +6,7 @@
 #    By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/06 00:33:30 by jyolando          #+#    #+#              #
-#    Updated: 2022/01/08 15:52:24 by jyolando         ###   ########.fr        #
+#    Updated: 2022/01/08 18:54:50 by jyolando         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,24 +19,28 @@ SRCS = src/main.c \
 		src/utils.c src/error.c \
 		src/init_images.c\
 		src/movement.c\
-		gnl/get_next_line.c gnl/get_next_line_utils.c \
-		libft/ft_itoa.c
+		library/gnl/get_next_line.c library/gnl/get_next_line_utils.c \
 
 OBJ = $(SRCS:.c=.o)
 
 CC = gcc
 
 %.o: %.c
-	$(CC) -I./mlx -I./gnl -I./libft -g -D BUFFER_SIZE=1 -c $< -o $@
+	$(CC) -I./library/mlx -I./library/gnl -I./library/libft -g -D BUFFER_SIZE=1 -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -C mlx
-	$(CC) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	make -C library/mlx
+	$(CC) $(OBJ) -L library/mlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	mv library/mlx/libmlx.dylib .
 
-fclean:
-	rm -rf $(OBJ) $(NAME)
+clean:
+	make -C library/mlx clean
+	rm -rf $(OBJ)
+
+fclean:	clean
+	rm -rf $(NAME) libmlx.dylib
 
 re:				fclean
 				make all

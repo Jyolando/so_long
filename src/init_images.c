@@ -6,7 +6,7 @@
 /*   By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 15:44:39 by jyolando          #+#    #+#             */
-/*   Updated: 2022/01/08 15:44:39 by jyolando         ###   ########.fr       */
+/*   Updated: 2022/01/08 18:50:49 by jyolando         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static t_data	ft_get_img(t_vars mlx, t_data game, char *file)
 
 t_game	ft_init_images(t_vars mlx, t_game map)
 {
-	map.player = ft_get_img(mlx, map.player, "images/player.png");
-	map.exit = ft_get_img(mlx, map.exit, "images/exit.png");
-	map.coin = ft_get_img(mlx, map.coin, "images/coin.png");
-	map.wall = ft_get_img(mlx, map.wall, "images/wall.png");
-	map.empty = ft_get_img(mlx, map.empty, "images/empty.png");
+	map.player = ft_get_img(mlx, map.player, "assets/images/player.png");
+	map.exit = ft_get_img(mlx, map.exit, "assets/images/exit.png");
+	map.coin = ft_get_img(mlx, map.coin, "assets/images/coin.png");
+	map.wall = ft_get_img(mlx, map.wall, "assets/images/wall.png");
+	map.empty = ft_get_img(mlx, map.empty, "assets/images/empty.png");
 	return (map);
 }

@@ -19,7 +19,7 @@ static int	ft_isspace(char c)
 
 int	ft_atoi(const char *str)
 {
-	int	res;
+	int		res;
 	long	neg;
 
 	neg = 1;

@@ -6,20 +6,20 @@
 /*   By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 15:45:17 by jyolando          #+#    #+#             */
-/*   Updated: 2022/01/08 18:18:37 by jyolando         ###   ########.fr       */
+/*   Updated: 2022/01/08 18:58:01 by jyolando         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "../libft/libft.h"
+# include "../library/libft/libft.h"
+# include "../library/gnl/get_next_line.h"
 # include <mlx.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include "../gnl/get_next_line.h"
 
 # define SCORE 100
 
