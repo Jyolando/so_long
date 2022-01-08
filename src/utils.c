@@ -1,6 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/08 15:31:38 by jyolando          #+#    #+#             */
+/*   Updated: 2022/01/08 18:25:00 by jyolando         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void ft_free_array(char **arr, int size)
+static void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_free_array(char **arr, int size)
 {
 	while (size--)
 	{
@@ -12,5 +29,16 @@ void ft_free_array(char **arr, int size)
 void	ft_putstr(char *str)
 {
 	while (*str)
-		write(1, str++, 1);
+		ft_putchar(*str++);
+}
+
+void	ft_putnbr(int n)
+{
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putchar((n % 10) + '0');
+	}
+	else
+		ft_putchar(n + '0');
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/08 15:22:56 by jyolando          #+#    #+#             */
+/*   Updated: 2022/01/08 15:25:15 by jyolando         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
 static int	check_symbs(t_game map)
@@ -37,8 +49,8 @@ static int	check_walls(t_game map)
 				if (map.map_content[i][j] != '1')
 					return (0);
 			if (i != 0 && i != map.map_height - 1)
-				if ((j == 0 || j == map.map_lenght - 1) &&
-					map.map_content[i][j] != '1')
+				if ((j == 0 || j == map.map_lenght - 1)
+					&& map.map_content[i][j] != '1')
 					return (0);
 			j++;
 		}
@@ -47,7 +59,8 @@ static int	check_walls(t_game map)
 	return (1);
 }
 
-static int	check_player(t_game map, char c) {
+static int	check_player(t_game map, char c)
+{
 	int	i;
 	int	j;
 	int	flag;
@@ -70,7 +83,8 @@ static int	check_player(t_game map, char c) {
 	return (flag);
 }
 
-static int	check_coin_exit(t_game map, char c) {
+static int	check_coin_exit(t_game map, char c)
+{
 	int	i;
 	int	j;
 	int	flag;
@@ -91,13 +105,11 @@ static int	check_coin_exit(t_game map, char c) {
 	return (flag);
 }
 
-#include <stdio.h>
-
 int	ft_check_map(t_game map)
 {
-	if (!check_symbs(map) || !check_walls(map) ||
-		!check_player(map, 'P') || !check_coin_exit(map, 'E') ||
-		!check_coin_exit(map, 'C'))
+	if (!check_symbs(map) || !check_walls(map)
+		|| !check_player(map, 'P') || !check_coin_exit(map, 'E')
+		|| !check_coin_exit(map, 'C'))
 	{
 		ft_free_array(map.map_content, map.map_height + 1);
 		ft_error("Error\nMap is invalid.\n");

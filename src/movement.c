@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movement.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/08 15:33:10 by jyolando          #+#    #+#             */
+/*   Updated: 2022/01/08 15:33:37 by jyolando         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-#include <stdio.h>
-
-static int is_exit(t_all *all, int x, int y)
+static int	is_exit(t_all *all, int x, int y)
 {
 	if (all->map.map_content[all->map.p_y + y][all->map.p_x + x] == 'E')
 	{
@@ -13,8 +23,8 @@ static int is_exit(t_all *all, int x, int y)
 		}
 		else
 		{
-			mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.empty.img,
-							all->map.p_x * 24, all->map.p_y * 24);
+			mlx_put_image_to_window(all->mlx.mlx, all->mlx.win,
+				all->map.empty.img, all->map.p_x * 24, all->map.p_y * 24);
 			all->map.gover = 1;
 			return (1);
 		}
@@ -22,7 +32,7 @@ static int is_exit(t_all *all, int x, int y)
 	return (0);
 }
 
-static void is_coin (t_all *all, int x, int y)
+static void	is_coin(t_all *all, int x, int y)
 {
 	if (all->map.map_content[all->map.p_y + y][all->map.p_x + x] == 'C')
 	{
@@ -33,7 +43,7 @@ static void is_coin (t_all *all, int x, int y)
 
 static int	move(t_all *all, int x, int y)
 {
-	int flag;
+	int	flag;
 
 	flag = 0;
 	if (all->map.map_content[all->map.p_y + y][all->map.p_x + x] == '1')
@@ -41,7 +51,7 @@ static int	move(t_all *all, int x, int y)
 	if (all->map.te_x != 0 || all->map.te_y != 0)
 	{
 		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.exit.img,
-							all->map.te_x * 24, all->map.te_y * 24);
+			all->map.te_x * 24, all->map.te_y * 24);
 		all->map.te_x = 0;
 		all->map.te_y = 0;
 		flag = 1;
@@ -51,21 +61,15 @@ static int	move(t_all *all, int x, int y)
 	is_coin(all, x, y);
 	if (!flag)
 		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.empty.img,
-								all->map.p_x * 24, all->map.p_y * 24);
+			all->map.p_x * 24, all->map.p_y * 24);
 	all->map.p_y += y;
 	all->map.p_x += x;
 	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->map.player.img,
-							all->map.p_x * 24, all->map.p_y * 24);
-
+		all->map.p_x * 24, all->map.p_y * 24);
 	return (1);
 }
 
-//static int	move_down(t_all *all)
-//{
-
-//}
-
-int ft_move(int keycode, t_all *all)
+int	ft_move(int keycode, t_all *all)
 {
 	if (keycode == 13)
 		return (move(all, 0, -1));

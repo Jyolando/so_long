@@ -6,7 +6,7 @@
 #    By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/06 00:33:30 by jyolando          #+#    #+#              #
-#    Updated: 2022/01/08 02:48:41 by jyolando         ###   ########.fr        #
+#    Updated: 2022/01/08 15:52:24 by jyolando         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS = src/main.c \
 		src/init_images.c\
 		src/movement.c\
 		gnl/get_next_line.c gnl/get_next_line_utils.c \
-		libft/ft_strdup.c
+		libft/ft_itoa.c
 
 OBJ = $(SRCS:.c=.o)
 

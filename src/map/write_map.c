@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   write_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jyolando <jyolando@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/08 15:25:20 by jyolando          #+#    #+#             */
+/*   Updated: 2022/01/08 15:29:19 by jyolando         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
-static t_game	init_struct()
+static t_game	init_struct(void)
 {
 	t_game	map;
 
@@ -11,19 +23,20 @@ static t_game	init_struct()
 	return (map);
 }
 
-
-int get_height(char *file)
+static int	get_height(char *file)
 {
-	int fd;
-	char *line;
-	int height;
+	int		fd;
+	int		height;
+	char	*line;
 
 	height = 0;
 	fd = open(file, O_RDONLY);
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		height++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (height);
@@ -31,7 +44,7 @@ int get_height(char *file)
 
 t_game	ft_write_map(t_game map, char *file, int fd)
 {
-	int line;
+	int	line;
 
 	line = 0;
 	map = init_struct();
