@@ -111,7 +111,7 @@ int	ft_check_map(t_game map)
 		|| !check_player(map, 'P') || !check_coin_exit(map, 'E')
 		|| !check_coin_exit(map, 'C'))
 	{
-		ft_free_array(map.map_content, map.map_height + 1);
+		ft_free_array(map.map_content, map.map_height);
 		ft_error("Error\nMap is invalid.\n");
 	}
 	return (1);
